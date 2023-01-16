@@ -26,7 +26,7 @@ app.post('/api/submit', express.json(), (req, res) => setTimeout(() => {
 }, 3000 * Math.random()));
 
 if (!module.parent) {
-  app.listen(3001, () => console.log('Mock server running'));
+  app.listen(process.env.SERVER_PORT ?? 3001, () => console.log('Mock server running'));
 }
 
 module.exports = app;

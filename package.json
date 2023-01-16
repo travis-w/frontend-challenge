@@ -15,9 +15,11 @@
     "start:mocks": "node server/index.js",
     "start:dev": "react-scripts start",
     "start": "run-p start:*",
+    "dev": "SERVER_PORT=3002 run-p start:* hijacker",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "hijacker": "hijacker -c hijacker.config.mjs"
   },
   "browserslist": {
     "production": [
@@ -30,5 +32,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@hijacker/core": "^2.0.0-beta.9",
+    "@hijacker/plugin-frontend": "^1.0.0-beta.5"
   }
 }
