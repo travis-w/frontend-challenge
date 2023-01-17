@@ -2,14 +2,23 @@ import { Box, TextField, Typography, Button, useTheme } from "@mui/material";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { useEffect } from "react";
 
 import { useUserState } from "../hooks/useUserState";
 import { Form } from "../components/Form";
 
 export const SignUp = () => {
-  const { name, email, password, setUserInfo } = useUserState();
+  const { name, email, password, submitError, submitted, setUserInfo } =
+    useUserState();
   const navigate = useNavigate();
   const theme = useTheme();
+
+  // If submitted, make sure user refreshes/restarts
+  useEffect(() => {
+    if (submitted) {
+      navigate(submitError ? "/error" : "/success");
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -73,7 +82,13 @@ export const SignUp = () => {
         <Box display="flex" gap={theme.spacing(1)}>
           <Box flex="1"></Box>
           <Box flex="1">
-            <Button fullWidth size="small" color="primary" variant="contained" type="submit">
+            <Button
+              fullWidth
+              size="small"
+              color="primary"
+              variant="contained"
+              type="submit"
+            >
               Next
             </Button>
           </Box>

@@ -15,7 +15,7 @@ export const theme = createTheme({
       fontSize: "2rem",
       fontWeight: 500,
       textAlign: "center",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
   },
 });

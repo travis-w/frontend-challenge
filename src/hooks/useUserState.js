@@ -1,5 +1,7 @@
 import { useContext, createContext, useState } from "react";
 
+import { submitUserData } from "../api";
+
 const UserStateContext = createContext({
   name: "",
   email: "",
@@ -7,10 +9,11 @@ const UserStateContext = createContext({
   color: "",
   terms: false,
   submitted: false,
+  submitError: false,
   setUserInfo: () => {},
   setMoreInfo: () => {},
-  submitInfo: () => {},
-  resetUserState: () => {}
+  submitInfo: async () => {},
+  resetUserState: () => {},
 });
 
 export const UserStateProvider = ({ children }) => {
@@ -20,6 +23,7 @@ export const UserStateProvider = ({ children }) => {
   const [color, setColor] = useState("");
   const [terms, setTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const setUserInfo = ({ name, email, password }) => {
     setName(name);
@@ -32,10 +36,22 @@ export const UserStateProvider = ({ children }) => {
     setTerms(terms);
   };
 
-  const submitInfo = () => {
+  const submitInfo = async () => {
     // Make API Call
-
-    
+    try {
+      setSubmitted(true);
+      await submitUserData({
+        name,
+        email,
+        password,
+        color,
+        terms,
+      });
+      setSubmitError(false);
+    } catch (e) {
+      setSubmitError(true);
+      throw new Error(e);
+    }
   };
 
   const resetUserState = () => {
@@ -45,7 +61,7 @@ export const UserStateProvider = ({ children }) => {
     setColor("");
     setTerms(false);
     setSubmitted(false);
-  }
+  };
 
   return (
     <UserStateContext.Provider
@@ -56,10 +72,11 @@ export const UserStateProvider = ({ children }) => {
         color,
         terms,
         submitted,
+        submitError,
         setUserInfo,
         setMoreInfo,
         submitInfo,
-        resetUserState
+        resetUserState,
       }}
     >
       {children}

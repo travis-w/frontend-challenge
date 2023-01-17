@@ -9,26 +9,66 @@ import {
   Select,
   Typography,
   FormControlLabel,
-  styled,
   useTheme,
+  CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
 import { useUserState } from "../hooks/useUserState";
 import { Form } from "../components/Form";
+import { getColors } from "../api";
+
+const SelectSpinner = () => {
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress sx={{ padding: ".65rem" }} />
+    </Box>
+  );
+};
 
 export const AdditionalInfo = () => {
-  const { name, email, password, color, terms, setMoreInfo } = useUserState();
+  const {
+    name,
+    email,
+    password,
+    color,
+    terms,
+    submitted,
+    submitError,
+    setMoreInfo,
+  } = useUserState();
   const navigate = useNavigate();
   const theme = useTheme();
-  
-  // Don't let user start on more info page
+
+  const [colorChoices, setColorChoices] = useState([]);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [loadingColors, setLoadingColors] = useState(false);
+
+  const loadColors = async () => {
+    setLoadingColors(true);
+    try {
+      setColorChoices(await getColors());
+    } catch {
+      setShowSnackbar(true);
+    }
+    setLoadingColors(false);
+  };
+
   useEffect(() => {
     if (!name || !email || !password) {
+      // Don't let user start on more info page or view
       navigate("/");
+    } else if (submitted) {
+      navigate(submitError ? "/error" : "/success");
+    } else {
+      // Grab colors
+      loadColors();
     }
   }, []);
 
@@ -39,7 +79,9 @@ export const AdditionalInfo = () => {
     },
     validationSchema: yup.object({
       color: yup.string().required("Favorite color is required"),
-      terms: yup.bool().oneOf([true], "You must agree to the terms and conditions"),
+      terms: yup
+        .bool()
+        .oneOf([true], "You must agree to the terms and conditions"),
     }),
     onSubmit: (values) => {
       setMoreInfo(values);
@@ -51,12 +93,30 @@ export const AdditionalInfo = () => {
     navigate("/");
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setShowSnackbar(false);
+  };
+
   return (
     <Box>
       <Typography variant="pageTitle">Additional Info</Typography>
       <Form onSubmit={formik.handleSubmit}>
-        <FormControl fullWidth size="small">
-          <InputLabel id="test-test">Favorite Color</InputLabel>
+        <FormControl
+          fullWidth
+          size="small"
+          disabled={colorChoices.length === 0}
+        >
+          <InputLabel id="test-test">
+            {loadingColors
+              ? "Loading Color Choices..."
+              : colorChoices.length === 0
+              ? "Error Loading Colors. Click to Refresh"
+              : "Favorite Color"}
+          </InputLabel>
           <Select
             fullWidth
             name="color"
@@ -64,12 +124,40 @@ export const AdditionalInfo = () => {
             label="Favorite Color"
             value={formik.values.color}
             onChange={formik.handleChange}
+            onClick={
+              !loadingColors && colorChoices.length === 0
+                ? loadColors
+                : undefined
+            }
             error={formik.touched.color && Boolean(formik.errors.color)}
+            disabled={colorChoices.length === 0}
+            IconComponent={
+              loadingColors
+                ? SelectSpinner
+                : colorChoices.length === 0
+                ? RefreshIcon
+                : undefined
+            }
           >
-            <MenuItem value="blue">Blue</MenuItem>
-            <MenuItem value="red">Red</MenuItem>
+            {colorChoices.map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
           </Select>
-
+          <Snackbar
+            open={showSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+          >
+            <Alert
+              onClose={handleCloseSnackbar}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Error loading colors.
+            </Alert>
+          </Snackbar>
           <FormHelperText
             error={formik.touched.color && Boolean(formik.errors.color)}
           >
@@ -85,7 +173,10 @@ export const AdditionalInfo = () => {
                 checked={formik.values.terms}
                 onChange={formik.handleChange}
                 name="terms"
-                sx={{ ":hover":  { backgroundColor: "transparent !important" }, padding: "0 9px" }}
+                sx={{
+                  ":hover": { backgroundColor: "transparent !important" },
+                  padding: "0 9px",
+                }}
               />
             }
             label="I agree to the terms and conditions"
