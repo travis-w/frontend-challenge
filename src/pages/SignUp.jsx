@@ -68,7 +68,7 @@ export const SignUp = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Button color="primary" variant="contained" fullWidth type="submit">
+        <Button color="primary" variant="contained" type="submit">
           Next
         </Button>
       </form>

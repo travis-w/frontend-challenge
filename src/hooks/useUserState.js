@@ -40,7 +40,9 @@ export const UserStateProvider = ({ children }) => {
       password,
       color,
       terms,
-      setUserInfo
+      setUserInfo,
+      setMoreInfo,
+      submitInfo
     }}>
       {children}
     </UserStateContext.Provider>
