@@ -6,9 +6,11 @@ const UserStateContext = createContext({
   password: "",
   color: "",
   terms: false,
+  submitted: false,
   setUserInfo: () => {},
   setMoreInfo: () => {},
   submitInfo: () => {},
+  resetUserState: () => {}
 });
 
 export const UserStateProvider = ({ children }) => {
@@ -17,6 +19,7 @@ export const UserStateProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const [color, setColor] = useState("");
   const [terms, setTerms] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const setUserInfo = ({ name, email, password }) => {
     setName(name);
@@ -29,7 +32,20 @@ export const UserStateProvider = ({ children }) => {
     setTerms(terms);
   };
 
-  const submitInfo = () => {};
+  const submitInfo = () => {
+    // Make API Call
+
+    
+  };
+
+  const resetUserState = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setColor("");
+    setTerms(false);
+    setSubmitted(false);
+  }
 
   return (
     <UserStateContext.Provider
@@ -39,9 +55,11 @@ export const UserStateProvider = ({ children }) => {
         password,
         color,
         terms,
+        submitted,
         setUserInfo,
         setMoreInfo,
         submitInfo,
+        resetUserState
       }}
     >
       {children}
