@@ -1,13 +1,15 @@
-import { Box, TextField, Typography, Button } from "@mui/material";
+import { Box, TextField, Typography, Button, useTheme } from "@mui/material";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
 import { useUserState } from "../hooks/useUserState";
+import { Form } from "../components/Form";
 
 export const SignUp = () => {
   const { name, email, password, setUserInfo } = useUserState();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +38,7 @@ export const SignUp = () => {
   return (
     <Box>
       <Typography variant="pageTitle">Sign Up</Typography>
-      <form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
           size="small"
@@ -68,10 +70,15 @@ export const SignUp = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Button color="primary" variant="contained" type="submit">
-          Next
-        </Button>
-      </form>
+        <Box display="flex" gap={theme.spacing(1)}>
+          <Box flex="1"></Box>
+          <Box flex="1">
+            <Button fullWidth size="small" color="primary" variant="contained" type="submit">
+              Next
+            </Button>
+          </Box>
+        </Box>
+      </Form>
     </Box>
   );
 };

@@ -14,7 +14,7 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <UserStateProvider>
         <CssBaseline />
-        <Wrapper>
+        <Wrapper maxWidth="xs">
           <RouterProvider router={router} />
         </Wrapper>
       </UserStateProvider>

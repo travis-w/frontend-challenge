@@ -12,9 +12,10 @@ export const theme = createTheme({
   },
   typography: {
     pageTitle: {
-      fontSize: 32,
+      fontSize: "2rem",
       fontWeight: 500,
       textAlign: "center",
+      marginBottom: "1rem"
     },
   },
 });
