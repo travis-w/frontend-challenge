@@ -110,7 +110,7 @@ export const AdditionalInfo = () => {
           size="small"
           disabled={colorChoices.length === 0}
         >
-          <InputLabel id="test-test">
+          <InputLabel id="favorite-color-label">
             {loadingColors
               ? "Loading Color Choices..."
               : colorChoices.length === 0
@@ -120,7 +120,7 @@ export const AdditionalInfo = () => {
           <Select
             fullWidth
             name="color"
-            labelId="test-test"
+            labelId="favorite-color-label"
             label="Favorite Color"
             value={formik.values.color}
             onChange={formik.handleChange}
