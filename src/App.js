@@ -1,12 +1,12 @@
-import { Container, CssBaseline, styled, ThemeProvider } from "@mui/material"
-import { RouterProvider } from "react-router-dom"
+import { Container, CssBaseline, styled, ThemeProvider } from "@mui/material";
+import { RouterProvider } from "react-router-dom";
 
-import { theme } from "./styles/theme"
-import { router } from "./router"
+import { theme } from "./styles/theme";
+import { router } from "./router";
 import { UserStateProvider } from "./hooks/useUserState";
 
 const Wrapper = styled(Container)`
-  padding-top: ${({theme}) => theme.spacing(3)};
+  padding-top: ${({ theme }) => theme.spacing(3)};
 `;
 
 export const App = () => {
@@ -19,5 +19,5 @@ export const App = () => {
         </Wrapper>
       </UserStateProvider>
     </ThemeProvider>
-  )
-}
+  );
+};

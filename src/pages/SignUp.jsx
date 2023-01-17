@@ -1,5 +1,5 @@
-import { Box, TextField, Typography, Button } from "@mui/material"
-import { useFormik } from "formik"
+import { Box, TextField, Typography, Button } from "@mui/material";
+import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
@@ -13,24 +13,24 @@ export const SignUp = () => {
     initialValues: {
       name,
       email,
-      password
+      password,
     },
     validationSchema: yup.object({
       name: yup
-        .string('Enter your first name')
-        .required('First name is required'),
+        .string("Enter your first name")
+        .required("First name is required"),
       email: yup
-        .string('Enter your e-mail')
-        .required('E-Mail is required')
-        .email('Enter a valid e-mail address'),
+        .string("Enter your e-mail")
+        .required("E-Mail is required")
+        .email("Enter a valid e-mail address"),
       password: yup
-        .string('Enter your password')
-        .required('Password is required')
+        .string("Enter your password")
+        .required("Password is required"),
     }),
     onSubmit: (values) => {
       setUserInfo(values);
-      navigate('/more-info')
-    }
+      navigate("/more-info");
+    },
   });
 
   return (
@@ -73,5 +73,5 @@ export const SignUp = () => {
         </Button>
       </form>
     </Box>
-  )
-}
+  );
+};

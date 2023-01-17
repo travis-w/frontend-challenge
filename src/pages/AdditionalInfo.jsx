@@ -1,10 +1,21 @@
-import { Box, Button, Checkbox, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography, FormControlLabel } from "@mui/material"
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  FormControlLabel,
+} from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
-import { useUserState } from "../hooks/useUserState"
+import { useUserState } from "../hooks/useUserState";
 
 export const AdditionalInfo = () => {
   const { name, email, password, color, terms, setMoreInfo } = useUserState();
@@ -13,32 +24,28 @@ export const AdditionalInfo = () => {
   // Don't let user start on more info page
   useEffect(() => {
     if (!name || !email || !password) {
-      navigate('/')
+      navigate("/");
     }
   }, []);
 
   const formik = useFormik({
     initialValues: {
       color,
-      terms
+      terms,
     },
     validationSchema: yup.object({
-      color: yup
-        .string()
-        .required('Favorite color is required'),
-      terms: yup
-        .bool()
-        .oneOf([true])
+      color: yup.string().required("Favorite color is required"),
+      terms: yup.bool().oneOf([true]),
     }),
     onSubmit: (values) => {
       setMoreInfo(values);
-      navigate('/confirmation')
-    }
+      navigate("/confirmation");
+    },
   });
 
   const onBack = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   return (
     <Box>
@@ -58,20 +65,31 @@ export const AdditionalInfo = () => {
             <MenuItem value="blue">Blue</MenuItem>
             <MenuItem value="red">Red</MenuItem>
           </Select>
-          
-          <FormHelperText error={formik.touched.color && Boolean(formik.errors.color)}>{formik.touched.color && formik.errors.color}</FormHelperText>
+
+          <FormHelperText
+            error={formik.touched.color && Boolean(formik.errors.color)}
+          >
+            {formik.touched.color && formik.errors.color}
+          </FormHelperText>
         </FormControl>
-        <FormControlLabel 
+        <FormControlLabel
           sx={{ display: "block" }}
           control={
-            <Checkbox value={formik.values.terms} onChange={formik.handleChange} name="terms" />
+            <Checkbox
+              value={formik.values.terms}
+              onChange={formik.handleChange}
+              name="terms"
+            />
           }
-          label="Label" 
+          label="Label"
         />
-        
-        <Button type="button" onClick={onBack}>Back</Button>
-        <Button type="submit" variant="contained">Next</Button>
+        <Button type="button" onClick={onBack}>
+          Back
+        </Button>
+        <Button type="submit" variant="contained">
+          Next
+        </Button>
       </form>
     </Box>
-  )
-}
+  );
+};

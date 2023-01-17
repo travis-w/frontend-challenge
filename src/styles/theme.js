@@ -5,16 +5,16 @@ export const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          pageTitle: 'h1'
-        }
-      }
-    }
+          pageTitle: "h1",
+        },
+      },
+    },
   },
   typography: {
     pageTitle: {
       fontSize: 32,
       fontWeight: 500,
-      textAlign: 'center'
-    }
-  }
-})
+      textAlign: "center",
+    },
+  },
+});

@@ -1,21 +1,21 @@
 import { useContext, createContext, useState } from "react";
 
 const UserStateContext = createContext({
-  name: '',
-  email: '',
-  password: '',
-  color: '',
+  name: "",
+  email: "",
+  password: "",
+  color: "",
   terms: false,
   setUserInfo: () => {},
   setMoreInfo: () => {},
-  submitInfo: () => {}
+  submitInfo: () => {},
 });
 
 export const UserStateProvider = ({ children }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [color, setColor] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [color, setColor] = useState("");
   const [terms, setTerms] = useState(false);
 
   const setUserInfo = ({ name, email, password }) => {
@@ -29,26 +29,26 @@ export const UserStateProvider = ({ children }) => {
     setTerms(terms);
   };
 
-  const submitInfo = () => {
-
-  }
+  const submitInfo = () => {};
 
   return (
-    <UserStateContext.Provider value={{
-      name,
-      email,
-      password,
-      color,
-      terms,
-      setUserInfo,
-      setMoreInfo,
-      submitInfo
-    }}>
+    <UserStateContext.Provider
+      value={{
+        name,
+        email,
+        password,
+        color,
+        terms,
+        setUserInfo,
+        setMoreInfo,
+        submitInfo,
+      }}
+    >
       {children}
     </UserStateContext.Provider>
-  )
+  );
 };
 
 export const useUserState = () => {
   return useContext(UserStateContext);
-}
+};

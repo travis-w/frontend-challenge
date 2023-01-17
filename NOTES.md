@@ -1,6 +1,7 @@
 # Notes
 
 ## Hijacker
+
 I set up Hijacker to work with this project to easily edit the mocks easily without modifying the exisiting ones. It will proxy to the routes if no matching rules are enabled.
 
 To run everything with hijacker use the following command:
