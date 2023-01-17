@@ -1,5 +1,9 @@
+import { Box, Typography } from "@mui/material"
+
 export const Success = () => {
   return (
-    <div>Success</div>
+    <Box>
+      <Typography variant="pageTitle">Success</Typography>
+    </Box>
   )
 }

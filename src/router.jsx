@@ -11,14 +11,10 @@ export const router = createBrowserRouter([
   {
     path: '/',
     // Sign-Up default page for this app
-    element: <Navigate replace to="/sign-up" />
-  },
-  {
-    path: '/sign-up',
     element: <SignUp />
   },
   {
-    path: '/additional-info',
+    path: '/more-info',
     element: <AdditionalInfo />
   },
   {
